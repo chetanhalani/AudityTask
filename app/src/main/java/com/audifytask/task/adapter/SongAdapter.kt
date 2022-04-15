@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.audifytask.task.MainActivity
 import com.audifytask.task.R
@@ -29,6 +31,12 @@ class SongAdapter(private var songs: List<SongModel>? = null, val songFavoriteIm
                         songFavoriteImpl.favoriteActionPerformed(view.tag as Long)
                     }
                 }
+                holder.llNameMainView.tag = position
+                holder.llNameMainView.setOnClickListener { p0 ->
+                    p0?.let { view ->
+                        songFavoriteImpl.playSong(view.tag as Int)
+                    }
+                }
             }
         }
     }
@@ -41,6 +49,7 @@ class SongAdapter(private var songs: List<SongModel>? = null, val songFavoriteIm
     }
 
     class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val llNameMainView = itemView.findViewById<LinearLayoutCompat>(R.id.llNameMainView)
         val songName = itemView.findViewById<TextView>(R.id.tvSongName)
         val songArtist = itemView.findViewById<TextView>(R.id.tvSongArtist)
         val favorite = itemView.findViewById<ImageView>(R.id.imgFavorite)
@@ -54,4 +63,5 @@ class SongAdapter(private var songs: List<SongModel>? = null, val songFavoriteIm
 
 interface SongFavoriteAction {
     fun favoriteActionPerformed(songId: Long)
+    fun playSong(position: Int)
 }

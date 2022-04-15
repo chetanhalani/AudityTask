@@ -78,6 +78,7 @@ class SongRepositoryFactory : ViewModel() {
 
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.DATA,
             MediaStore.Audio.Media.DISPLAY_NAME,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.SIZE,
@@ -97,9 +98,10 @@ class SongRepositoryFactory : ViewModel() {
             val idColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
             val displayName = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)
             val artistColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val dataColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
             while(it.moveToNext()) {
                 val id = it.getLong(idColumn)
-                songList.add(SongModel(id, it.getString(displayName), it.getString(artistColumn), isFavoriteSong(id)))
+                songList.add(SongModel(id, it.getString(displayName), it.getString(artistColumn), it.getString(dataColumn), isFavoriteSong(id)))
             }
             it.close()
         }
